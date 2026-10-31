@@ -86,23 +86,66 @@
         document.getElementById('registroForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevenir recarga de la página
 
-            // Obtener datos del formulario
+            // 1. Cambiar el estado del botón mientras procesa
+            const btnSubmit = event.target.querySelector('button[type="submit"]');
+            const originalBtnHTML = btnSubmit.innerHTML;
+            btnSubmit.innerHTML = 'Procesando...';
+            btnSubmit.disabled = true;
+            btnSubmit.classList.add('opacity-75', 'cursor-not-allowed');
+
+            // 2. Obtener datos del formulario
             const codigo = document.getElementById('codigo').value;
             const nombre = document.getElementById('nombre').value;
             const whatsapp = document.getElementById('whatsapp').value;
             const correo = document.getElementById('correo').value;
 
-            // --- CONFIGURACIÓN DEL NÚMERO ---
-            // Número fijo de destino (incluye código de país 52)
+            // --- CONFIGURACIÓN DE LA BASE DE DATOS ---
+            // Reemplaza el texto "TU_ENLACE_DE_FORMSPREE" con tu link real
+            const urlBaseDatos = 'https://formspree.io/f/mwllrvgk'; 
+            
+            const formData = new FormData();
+            formData.append('Código', codigo);
+            formData.append('Nombre', nombre);
+            formData.append('WhatsApp', whatsapp);
+            formData.append('Correo', correo);
+
+            // 3. Enviar datos a la nube y luego abrir WhatsApp
+            if (urlBaseDatos !== 'TU_ENLACE_DE_FORMSPREE') {
+                fetch(urlBaseDatos, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                }).then(() => {
+                    abrirWhatsApp(codigo, nombre, whatsapp, correo);
+                }).catch(() => {
+                    // Si falla su internet, asegurarnos de que de todos modos mande el WhatsApp
+                    abrirWhatsApp(codigo, nombre, whatsapp, correo);
+                }).finally(() => {
+                    restaurarFormulario(btnSubmit, originalBtnHTML);
+                });
+            } else {
+                // Si aún no has puesto tu enlace, simplemente ignora la BD y va a WhatsApp
+                abrirWhatsApp(codigo, nombre, whatsapp, correo);
+                restaurarFormulario(btnSubmit, originalBtnHTML);
+            }
+        });
+
+        // Función para enviar a WhatsApp
+        function abrirWhatsApp(codigo, nombre, whatsapp, correo) {
             const numeroDestino = '525660158164'; 
-
-            // Construir el mensaje exacto solicitado
             const mensaje = `Hola soy ${nombre}, mi cel es ${whatsapp} y mi mail es ${correo} quiero participar en la dinámica de Prudential y quiero poder conocer más de las estrategias de retiro y cuidado de mi familia.\n\nMi código es: ${codigo}`;
-
-            // Crear la URL de WhatsApp y abrir en nueva pestaña
             const urlWhatsApp = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(mensaje)}`;
             window.open(urlWhatsApp, '_blank');
-        });
+        }
+
+        // Función para dejar el formulario listo por si otra persona usa el mismo celular
+        function restaurarFormulario(btn, html) {
+            btn.innerHTML = html;
+            btn.disabled = false;
+            btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            document.getElementById('registroForm').reset();
+            document.getElementById('codigo').value = generarCodigo(); // Genera uno nuevo
+        }
     </script>
 </body>
 </html>
