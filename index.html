@@ -22,7 +22,7 @@
         <!-- Encabezado corporativo -->
         <div class="bg-blue-800 p-6 text-center">
             <h2 class="text-2xl font-bold text-white">Dinámica Prudential</h2>
-            <p class="text-blue-200 mt-2 text-sm">Registro de participación y estrategias de retiro</p>
+            <p class="text-blue-200 mt-2 text-sm">Registro de participación y gana un Check Up Financiero</p>
         </div>
 
         <!-- Cuerpo del formulario -->
@@ -99,9 +99,9 @@
             const whatsapp = document.getElementById('whatsapp').value;
             const correo = document.getElementById('correo').value;
 
-            // --- CONFIGURACIÓN DE LA BASE DE DATOS ---
-            // Reemplaza el texto "TU_ENLACE_DE_FORMSPREE" con tu link real
-            const urlBaseDatos = 'https://formspree.io/f/mwllrvgk'; 
+            // --- CONFIGURACIÓN DE LA BASE DE DATOS (GOOGLE SHEETS) ---
+            // Reemplaza este texto con el enlace largo que te dará Google
+            const urlBaseDatos = 'https://script.google.com/macros/s/AKfycbwIFhgr-Cw_BkfqB-Zpc51MFuliEiYCGmLHbiekyhY4efpfx3m1meyGLUmp0xkaCa5b/exec'; 
             
             const formData = new FormData();
             formData.append('Código', codigo);
@@ -110,11 +110,11 @@
             formData.append('Correo', correo);
 
             // 3. Enviar datos a la nube y luego abrir WhatsApp
-            if (urlBaseDatos !== 'TU_ENLACE_DE_FORMSPREE') {
+            if (urlBaseDatos !== 'TU_ENLACE_DE_GOOGLE_SHEETS') {
                 fetch(urlBaseDatos, {
                     method: 'POST',
                     body: formData,
-                    headers: { 'Accept': 'application/json' }
+                    mode: 'no-cors' // Permiso especial requerido por Google Sheets
                 }).then(() => {
                     abrirWhatsApp(codigo, nombre, whatsapp, correo);
                 }).catch(() => {
