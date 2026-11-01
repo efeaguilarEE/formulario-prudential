@@ -154,7 +154,7 @@
         // Función para enviar a WhatsApp
         function abrirWhatsApp(codigo, nombre, whatsapp, correo) {
             const numeroDestino = '525660158164'; 
-            const mensaje = `Hola soy ${nombre}, mi cel es ${whatsapp} y mi mail es ${correo} quiero participar en la dinámica de Prudential y quiero poder conocer más de las estrategias de retiro y cuidado de mi familia con un Check Up Financiero Personal.\n\nMi código único es: ${codigo}`;
+            const mensaje = `Hola soy ${nombre}, mi cel es ${whatsapp} y mi mail es ${correo} quiero participar en la dinámica de Prudential y quiero poder conocer más de las estrategias de retiro y cuidado de mi familia con un Check Up Financiero Personal con *Fernando Aguilar*.\n\nMi código único es: ${codigo}`;
             const urlWhatsApp = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(mensaje)}`;
             window.open(urlWhatsApp, '_blank');
         }
