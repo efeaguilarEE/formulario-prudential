@@ -22,7 +22,7 @@
         <!-- Encabezado corporativo -->
         <div class="bg-blue-800 p-6 text-center">
             <h2 class="text-2xl font-bold text-white">Dinámica Prudential</h2>
-            <p class="text-blue-200 mt-2 text-sm">Registro de participación y estrategias de retiro</p>
+            <p class="text-blue-200 mt-2 text-sm">Registro de participación y recibir CheckUp Financiero Personal</p>
         </div>
 
         <!-- Cuerpo del formulario -->
@@ -154,7 +154,7 @@
         // Función para enviar a WhatsApp
         function abrirWhatsApp(codigo, nombre, whatsapp, correo) {
             const numeroDestino = '525660158164'; 
-            const mensaje = `Hola soy ${nombre}, mi cel es ${whatsapp} y mi mail es ${correo} quiero participar en la dinámica de Prudential y quiero poder conocer más de las estrategias de retiro y cuidado de mi familia.\n\nMi código es: ${codigo}`;
+            const mensaje = `Hola soy ${nombre}, mi cel es ${whatsapp} y mi mail es ${correo} quiero participar en la dinámica de Prudential y quiero poder conocer más de las estrategias de retiro y cuidado de mi familia con un Check Up Financiero Personal.\n\nMi código único es: ${codigo}`;
             const urlWhatsApp = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(mensaje)}`;
             window.open(urlWhatsApp, '_blank');
         }
